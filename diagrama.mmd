@@ -1,0 +1,49 @@
+graph TD
+    %% Clientes frontend
+    subgraph Clientes
+        A[Aplicación Web]
+        B[Aplicación Móvil]
+    end
+
+    %% Capa BFF (API UX específica por cliente)
+    subgraph "BFFs (Backends for Frontends)"
+        direction LR
+        C[BFF Web - API UX Optimizada]
+        D[BFF Móvil - API UX Ligera]
+    end
+
+    %% Monolito Moderno
+    subgraph "Monolito Moderno"
+        E[Módulo de Productos<br/>API Interna]
+        F[Módulo de Usuarios<br/>API Interna]
+        G[Módulo de Inventario<br/>API Interna]
+    end
+
+    %% Flujos de comunicación
+    A -->|"1. Solicita datos<br/>optimizados"| C
+    B -->|"1. Solicita datos<br/>ligeros"| D
+
+    C -->|"2. Llama APIs internas"| E
+    C -->|"2. Llama APIs internas"| F
+    C -->|"2. Llama APIs internas"| G
+
+    D -->|"2. Llama APIs internas"| E
+    D -->|"2. Llama APIs internas"| F
+    D -->|"2. Llama APIs internas"| G
+
+    E -->|"3. Responde"| C
+    F -->|"3. Responde"| C
+    G -->|"3. Responde"| C
+
+    E -->|"3. Responde"| D
+    F -->|"3. Responde"| D
+    G -->|"3. Responde"| D
+
+    %% Estilos
+    classDef cliente fill:#e1f5fe,stroke:#0277bd
+    classDef bff fill:#f3e5f5,stroke:#7b1fa2
+    classDef monolito fill:#e8f5e8,stroke:#388e3c
+    
+    class A,B cliente
+    class C,D bff
+    class E,F,G monolito

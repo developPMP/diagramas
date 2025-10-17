@@ -1,0 +1,119 @@
+graph TD
+    %% Frontend Layer
+    subgraph "🌐 Frontend Angular"
+        A[📱 Angular SPA<br/>- Components<br/>- Services<br/>- Guards<br/>- Interceptors]
+        B[🔄 Angular Router<br/>- Lazy Loading<br/>- Route Guards]
+        C[📊 State Management<br/>- NgRx/Akita<br/>- Reactive Forms]
+    end
+
+    %% BFF Layer - Backend for Frontend
+    subgraph "🎯 BFF Layer (Backend for Frontend)"
+        D[🌐 Angular BFF<br/>- Agregación de datos<br/>- Transformación UI<br/>- Optimización Web<br/>- Caching específico]
+    end
+
+    %% API Gateway / Reverse Proxy
+    subgraph "🔗 Gateway Layer"
+        E[🌐 Nginx/Apache<br/>Reverse Proxy<br/>Load Balancer]
+        F[🔐 API Gateway<br/>- Authentication<br/>- Rate Limiting<br/>- CORS]
+    end
+
+    %% Monolito Moderno
+    subgraph "🏗️ Monolito Moderno (Spring Boot)"
+        subgraph "🔐 Security Layer"
+            G[🛡️ Entra ID Integration<br/>- OAuth2/OIDC<br/>- JWT Validation<br/>- RBAC from Entra<br/>- SSO Support]
+        end
+        
+        subgraph "🎯 Controller Layer"
+            H[📡 REST Controllers<br/>- @RestController<br/>- @RequestMapping]
+            I[🌐 GraphQL Resolver<br/>- Query/Mutation<br/>- Subscription]
+        end
+        
+        subgraph "💼 Business Layer"
+            J[⚙️ User Service<br/>- Business Logic<br/>- Validation]
+            K[📦 Product Service<br/>- Catalog Management<br/>- Pricing]
+            L[🛒 Order Service<br/>- Order Processing<br/>- Workflow]
+            M[💰 Payment Service<br/>- Payment Gateway<br/>- Transactions]
+        end
+        
+        subgraph "📂 Data Access Layer"
+            N[🗃️ JPA Repositories<br/>- Spring Data<br/>- Custom Queries]
+            O[📋 DTO Mappers<br/>- MapStruct<br/>- Converters]
+        end
+    end
+
+    %% Database Layer
+    subgraph "💾 Persistence Layer"
+        P[(🗄️ PostgreSQL<br/>Primary Database)]
+        Q[(📊 Redis Cache<br/>Session Store)]
+        R[📁 File Storage<br/>S3/MinIO]
+    end
+
+    %% External Services
+    subgraph "🌍 External Services"
+        S[📧 Email Service<br/>SendGrid/SES]
+        T[💳 Payment Gateway<br/>Stripe/PayPal]
+        U[📱 Push Notifications<br/>Firebase/OneSignal]
+    end
+
+    %% Flujos de comunicación
+    A -->|"1. Login Request"| EntraID[☁️ Entra ID<br/>Authentication]
+    EntraID -->|"2. JWT Token"| A
+    
+    A -->|"3. HTTP/HTTPS + JWT<br/>Optimized Calls"| D
+    B --> A
+    C --> A
+    
+    D -->|"4. Validate JWT + Aggregate"| E
+    E -->|"Proxy Pass"| F
+    F -->|"Internal API Calls + JWT"| G
+    
+    G --> H
+    G --> I
+    
+    H -->|"Business Logic"| J
+    H -->|"Business Logic"| K
+    H -->|"Business Logic"| L
+    H -->|"Business Logic"| M
+    
+    I -->|"Business Logic"| J
+    I -->|"Business Logic"| K
+    I -->|"Business Logic"| L
+    I -->|"Business Logic"| M
+    
+    J -->|"Data Access"| N
+    K -->|"Data Access"| N
+    L -->|"Data Access"| N
+    M -->|"Data Access"| N
+    
+    N -->|"Entity Mapping"| O
+    
+    N -->|"JDBC/JPA"| P
+    N -->|"Cache"| Q
+    M -->|"File Upload"| R
+    
+    M -->|"Email"| S
+    M -->|"Payment"| T
+    J -->|"Notifications"| U
+
+    %% Estilos
+    classDef angular fill:#dd0031,color:#ffffff,stroke:#dd0031
+    classDef bff fill:#f06292,color:#ffffff,stroke:#e91e63
+    classDef gateway fill:#ff9800,color:#ffffff,stroke:#e68900
+    classDef security fill:#4caf50,color:#ffffff,stroke:#388e3c
+    classDef controller fill:#2196f3,color:#ffffff,stroke:#1976d2
+    classDef business fill:#9c27b0,color:#ffffff,stroke:#7b1fa2
+    classDef data fill:#607d8b,color:#ffffff,stroke:#455a64
+    classDef database fill:#795548,color:#ffffff,stroke:#5d4037
+    classDef external fill:#ff5722,color:#ffffff,stroke:#d84315
+    classDef entraid fill:#0078d4,color:#ffffff,stroke:#106ebe
+    
+    class A,B,C angular
+    class D bff
+    class E,F gateway
+    class G security
+    class H,I controller
+    class J,K,L,M business
+    class N,O data
+    class P,Q,R database
+    class S,T,U external
+    class EntraID entraid
