@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant U as Usuario
+    participant A as Angular App
+    participant R as REST API
+    participant S as Services
+    participant D as PostgreSQL
+    
+    U->>A: Interacción (click, form)
+    A->>A: Validación Frontend
+    A->>R: HTTP Request (GET/POST/PUT/DELETE)
+    R->>R: Autenticación/Autorización
+    R->>S: Lógica de Negocio
+    S->>D: Query/Update
+    D-->>S: Resultado
+    S-->>R: Response Data
+    R-->>A: JSON Response
+    A->>A: Update UI
+    A-->>U: Resultado Visual
